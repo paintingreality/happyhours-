@@ -1,0 +1,49 @@
+.h1 {
+  color: red;
+
+}
+
+.h3 {
+  color: red;
+}
+
+.login{
+  color: red;
+}
+
+.l1 {
+  color: red;
+}
+
+.l2 {
+  color: red;
+}
+
+.l4{
+  color: red;
+}
+
+.or {
+  color: red;
+}
+
+.back {
+  color: red;
+}
+
+.signup{
+  color: red;
+}
+
+.bg {
+  background-image: url('http://i.imgur.com/vVRoMd5.jpg');
+  background-size: cover;
+
+}
+
+
+
+.tweet-list{
+  height: 600px;
+  width: 600px;
+}

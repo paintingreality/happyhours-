@@ -1,0 +1,44 @@
+<div class="page-header">
+
+
+
+    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+
+</div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="well">
+
+
+
+            <p>
+                <strong>Name</strong>: <%= user.local.name %><br>
+                <!-- <strong>id</strong>: <%= user._id %><br> -->
+                <strong>email</strong>: <%= user.local.email %><br>
+                <!-- <strong>password</strong>: <%= user.local.password %> -->
+            </p>
+            <form class="" action="/api/tweets" method="get">
+              <input type="text" name="city" placeholder="city"></input>
+              <button class="submitBtn"type="submit" name="button">Search</button>
+            </form>
+
+            <div id="tweet-list">
+
+            </div>
+
+            <script type="text/javascript">
+              var $submitBtn = $('.submitBtn')
+
+              var $tweetList = $('#tweet-list')
+              var $input = $('input')
+              var city = $input.val()
+              $submitBtn.on('click', function(){
+                console.log("clicked")
+                // $tweetList.prepend(tweetsRoutes)
+
+
+              })
+            </script>
+        </div>
+    </div>
+</div>
