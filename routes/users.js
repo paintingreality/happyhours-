@@ -3,7 +3,9 @@
 const
   express = require('express'),
   passport = require('passport'),
-  userRouter = express.Router()
+  userRouter = express.Router(),
+  usersCtrl = require('../controllers/users.js'),
+  User = require('../models/User.js')
 
 userRouter.route('/login')
   .get((req, res) => {
@@ -32,7 +34,7 @@ userRouter.get('/profile', isLoggedIn, (req, res) => {
 userRouter.post('/profile', isLoggedIn, (req,res) => {
 //
   res.render('profile', {user: req.user})
-  
+
 })
 
 userRouter.get('/logout', isLoggedIn, (req, res) => {
@@ -44,5 +46,10 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) return next()
   res.redirect('/')
 }
+
+userRouter.route('/:id')
+  .get(usersCtrl.show)
+  .patch(usersCtrl.update)
+  .delete(usersCtrl.destroy)
 
 module.exports = userRouter

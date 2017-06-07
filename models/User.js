@@ -18,4 +18,14 @@ const
     return bcrypt.compareSync(password, this.local.password)
   }
   //makes model avail in other files.
+  userSchema.pre('save', function(next) {
+    const user = this
+    if(!user.isModified('password')) return next()
+    user.password = user.generateHash(user.password)
+    next()
+  })
+
+
+
+
   module.exports = mongoose.model('User', userSchema)

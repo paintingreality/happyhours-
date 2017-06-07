@@ -22,22 +22,59 @@
               <button class="submitBtn"type="submit" name="button">Search</button>
             </form>
 
-            <div id="tweet-list">
+            <div id="tList">
+              <ul id="tweet-list">
+                <button class="favBtn" type="submit" name="favbutton" name="favbutton">Fav</button>
+              </ul>
+            </div>
 
+            <div>
+              <ul id="fav-list">
+                <button class="delBtn" type="delete" name="delbutton">X</button>
+              </ul>
             </div>
 
             <script type="text/javascript">
               var $submitBtn = $('.submitBtn')
-
               var $tweetList = $('#tweet-list')
+              var $favList = $('#fav-list')
               var $input = $('input')
-              var city = $input.val()
-              $submitBtn.on('click', function(){
-                console.log("clicked")
-                // $tweetList.prepend(tweetsRoutes)
+              var $favBtn = $('.favBtn')
+              $submitBtn.on('click', function(evt){
+                var city = $input.val()
+                evt.preventDefault()
+                //make an ajax call to api/tweets using .get method
+                $.ajax({
+                  type: 'GET',
+                  url: 'api/tweets',
+                  data: {city},
+                  contentType: 'application/json',
+                  success: function (data){
+                    //when data from ajax call comes back console.log it first.
+                    console.log(data)
+                    //empty the tweetlist.
+                    $tweetList.empty()
 
-
+                    var tweets = data.data.statuses
+                    tweets.forEach(function(tweet) {
+                      var $tweet = $('<li>').text(tweet.text)
+                      $tweetList.append($tweet)
+                    })
+                  }
+                });
+                    console.log("clicked")
               })
+
+              var $favBtn = $('.favBtn')
+              var $favList = $('#fav-list')
+              $favBtn.on('click', function(evt){
+                evt.preventDefault()
+                $favList.forEach(function($tweet) {
+                  var $tweet = $('<li>').text(tweet.text)
+                  $favList.append($tweet)
+                })
+              })
+
             </script>
         </div>
     </div>

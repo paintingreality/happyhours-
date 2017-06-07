@@ -38,7 +38,7 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(flash())
-
+//static images in public folder.
 app.use(express.static(__dirname + '/public'))
 
 
@@ -53,7 +53,7 @@ app.use(session({
 	saveUninitialized: false,
 	store: store
 }))
-
+//passport 
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -72,8 +72,9 @@ app.get('/', (req,res) => {
 
 
 app.use('/', userRoutes)
+//tweets route
 app.use('/api/tweets', tweetsRoutes)
-
+//port (localhost:3000)
 app.listen(port, (err) => {
 	console.log(err || "Server running on port " + port)
 })
