@@ -3,11 +3,9 @@ const
   mongoose = require('mongoose'),
   bcrypt = require('bcrypt-nodejs'),
   userSchema = new mongoose.Schema({
-    local: {
       name: String,
       email: String,
       password: String
-    }
   })
   //generates user password.
   userSchema.methods.generateHash = function(password){
@@ -15,7 +13,7 @@ const
   }
   // checks to see if password matches.
   userSchema.methods.validPassword = function(password){
-    return bcrypt.compareSync(password, this.local.password)
+    return bcrypt.compareSync(password, this.password)
   }
   //makes model avail in other files.
   userSchema.pre('save', function(next) {

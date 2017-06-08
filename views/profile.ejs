@@ -12,12 +12,12 @@
 
 
             <p>
-                <strong>Name</strong>: <%= user.local.name %><br>
+                <strong>Name</strong>: <%= user.name %><br>
                 <strong>id</strong>: <%= user._id %><br>
-                <strong>email</strong>: <%= user.local.email %><br>
-                <!-- <strong>password</strong>: <%= user.local.password %> -->
-                <button class="delaccount" type="delete">Delete Account</button>
-                <button class="updateaccount">Update Account</button>
+                <strong>email</strong>: <%= user.email %><br>
+                <!-- <strong>password</strong>: <%= user.password %> -->
+                <button class="delaccount btn btn-danger" type="delete">Delete Account</button>
+                <a href="/profile/edit" class="updateaccount btn btn-info">Edit Account</a>
             </p>
             <form class="" action="/api/tweets" method="get">
               <input type="text" name="city" placeholder="city"></input>
@@ -33,8 +33,12 @@
             <div>
               <h2>Favorites</h2>
               <ul id="fav-list">
-                
-
+                <% favorites.forEach(function(favorite) { %>
+                  <li id="<%= favorite.id %>">
+                    <span><%= favorite.text %></span>
+                    <button class="delBtn">Del</button>
+                  </li>
+                <% }) %>
               </ul>
               <!-- <button class="delBtn" type="delete" name="delbutton">X</button> -->
             </div>
@@ -45,20 +49,22 @@
               var $favList = $('#fav-list')
               var $input = $('input')
 
+              // //////////////////////////////////////////
               $('body').on('click', '.delBtn', function(){
+                var tweetId = $(this).parent().attr('id')
 
                 $.ajax({
                   method: 'DELETE',
-                  url: '/api/tweets',
+                  url: '/api/tweets/' + tweetId,
                 }).done(function(data){
-                  console.log(data)
+                  $('#' + tweetId).remove()
                 })
-                  console.log('tweet deleted...hopefully')
+
               })
                 ///////////////////////////////////////////////
 
 
-
+                // This is for the favBtn to put in the favTweetLI
               $('body').on('click', '.favBtn', function() {
                 // favorite button click event code here...
                 var $favList = $('#fav-list')
@@ -72,7 +78,7 @@
                   var favTweets = data.tweet.text
                   console.log(favTweets)
 
-                    var $favTweetLI = $('<li>')
+                    var $favTweetLI = $('<li>').attr('id', data.tweet._id)
                     $favTweetLI.append('<span>' + data.tweet.text + '</span>')
                     $favTweetLI.append('<button class="delBtn">Del</button>')
                     $favList.append($favTweetLI)
@@ -80,16 +86,7 @@
                 })
               })
 
-                // $.ajax({
-                //   method: 'GET',
-                //   url: '/api/tweets'
-                // }).done(function(data){
-                //   console.log(data)
-                //
-                // })
-
-
-
+              ///// this is for the submit button for dsiplaying tweets./////
               $submitBtn.on('click', function(evt){
                 var city = $input.val()
                 evt.preventDefault()
@@ -106,6 +103,12 @@
                     $tweetList.empty()
 
                     var tweets = data.data.statuses
+                    var
+                    // before rendering the results of the tweet search,
+                    // create a new array BASED on the results, where each tweet's text replaces
+                    // a URL with a LINK to that URL...
+
+
                     tweets.forEach(function(tweet) {
                       var $tweetLI = $('<li>')
                       $tweetLI.append('<span>' + tweet.text + '</span>')
@@ -116,10 +119,9 @@
                 });
                     console.log("clicked")
               })
-              ////////////////////////////////////////////////
+              //____________________________________________________//
 
-              ////////////////////////////////////////////////
-              ///this is working
+              ///Deleting user account from db. this is working////
               var $delAccount = $('.delaccount')
               $delAccount.on('click', function(evt){
                 // evt.preventDefault()

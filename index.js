@@ -20,7 +20,7 @@ const
 
 const
   port = process.env.PORT || 3000
-  mongoConnectionString = process.env.MONGOD_URL || 'mongodb://localhost/passport-authentication'
+  mongoConnectionString = process.env.MONGOD_URL || 'mongodb://localhost/happyhours'
 //mongodb connection
 mongoose.connect(mongoConnectionString, (err) => {
   console.log(err || "connected to MongoDB (passport-authentication)")

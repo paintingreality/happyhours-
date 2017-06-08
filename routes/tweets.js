@@ -22,13 +22,13 @@ const
       res.json({success: true, message: "Favorite added...", tweet})
     })
 
-    // Tweet.create(req.body, (err, tweet) => {
-    //   res.json({success: true, message: "Tweet saved to favorites"})
-    // })
+
 
   })
   //route for deleting
-  tweetsRouter.delete('/', (req,res) => {
-    res.json({message: "request to delete favorite"})
+  tweetsRouter.delete('/:id', (req,res) => {
+    Tweet.findByIdAndRemove(req.params.id, (err, tweet) => {
+      res.json({success: true, message: "Deleted favorite...", tweet})
+    })
   })
 module.exports = tweetsRouter

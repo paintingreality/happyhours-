@@ -5,6 +5,7 @@ const
 module.exports = {
   index,
   show,
+  edit,
   create,
   update,
   destroy
@@ -22,6 +23,10 @@ function show(req, res) {
   })
 }
 
+function edit(req, res) {
+  res.render('edit', {user: req.user})
+}
+
 function create(req, res) {
   User.create(req.body, (err, user) => {
     res.json({success: true, message: "Account has been created"})
@@ -33,7 +38,7 @@ function update(req, res) {
     if (err) return console.log(err)
     Object.assign(user, req.body)
     user.save((err) => {
-      res.redirect('profile')
+      res.redirect('/profile')
     })
   })
 }

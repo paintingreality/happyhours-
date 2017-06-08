@@ -28,8 +28,8 @@ userRouter.route('/signup')
 
 userRouter.get('/profile', isLoggedIn, (req, res) => {
   //Tweet find for all favorites who's user property is req.user._id,THEN:
-  Tweet.findById(req.user._id, function(err, tweet){
-    res.render('profile', {user: req.user, tweets: tweet})
+  Tweet.find({user: req.user._id}, function(err, favorites){
+    res.render('profile', {user: req.user, favorites: favorites})
   })
 })
 
@@ -38,6 +38,8 @@ userRouter.get('/profile', isLoggedIn, (req, res) => {
 userRouter.post('/profile', isLoggedIn, (req,res) => {
   res.render('profile', {user: req.user})
 })
+
+userRouter.get('/profile/edit', isLoggedIn, usersCtrl.edit)
 
 userRouter.get('/logout', isLoggedIn, (req, res) => {
   req.logout()
