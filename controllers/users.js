@@ -41,6 +41,6 @@ function update(req, res) {
 function destroy(req, res) {
   User.findByIdAndRemove(req.params.id, (err, user) => {
     if (err) return console.log(err)
-    res.json({success: true, message: "User has been deleted"})
+    res.json({success: true, message: "Account Deleted"})
   })
 }

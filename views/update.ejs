@@ -5,7 +5,7 @@
       <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
-    <form action="/login" method="post">
+    <form action="/users/<% user._id %> ? _method=PATCH" method="post">
         <div class="form-group">
             <label class='l1'>Email</label>
             <input type="text" class="form-control" name="email">
@@ -15,7 +15,7 @@
             <input type="password" class="form-control" name="password">
         </div>
 
-        <button type="submit" class="btn btn-info btn-lg">Login</button>
+        <button type="submit" class="btn btn-info btn-lg">Update</button>
     </form>
 
 

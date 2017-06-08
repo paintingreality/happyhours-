@@ -13,9 +13,11 @@
 
             <p>
                 <strong>Name</strong>: <%= user.local.name %><br>
-                <!-- <strong>id</strong>: <%= user._id %><br> -->
+                <strong>id</strong>: <%= user._id %><br>
                 <strong>email</strong>: <%= user.local.email %><br>
                 <!-- <strong>password</strong>: <%= user.local.password %> -->
+                <button class="delaccount" type="delete">Delete Account</button>
+                <button class="updateaccount">Update Account</button>
             </p>
             <form class="" action="/api/tweets" method="get">
               <input type="text" name="city" placeholder="city"></input>
@@ -24,14 +26,17 @@
 
             <div id="tList">
               <ul id="tweet-list">
-                <button class="favBtn" type="submit" name="favbutton" name="favbutton">Fav</button>
               </ul>
+              <!-- <button class="favBtn" type="submit" name="favbutton" name="favbutton">Fav</button> -->
             </div>
 
             <div>
+              <h2>Favorites</h2>
               <ul id="fav-list">
-                <button class="delBtn" type="delete" name="delbutton">X</button>
+                
+
               </ul>
+              <!-- <button class="delBtn" type="delete" name="delbutton">X</button> -->
             </div>
 
             <script type="text/javascript">
@@ -39,13 +44,58 @@
               var $tweetList = $('#tweet-list')
               var $favList = $('#fav-list')
               var $input = $('input')
-              var $favBtn = $('.favBtn')
+
+              $('body').on('click', '.delBtn', function(){
+
+                $.ajax({
+                  method: 'DELETE',
+                  url: '/api/tweets',
+                }).done(function(data){
+                  console.log(data)
+                })
+                  console.log('tweet deleted...hopefully')
+              })
+                ///////////////////////////////////////////////
+
+
+
+              $('body').on('click', '.favBtn', function() {
+                // favorite button click event code here...
+                var $favList = $('#fav-list')
+                $.ajax({
+                  method: 'POST',
+                  url: '/api/tweets',
+                  data: JSON.stringify({text: $(this).prev().text()}),
+                  contentType: 'application/json',
+                }).done(function(data){
+                  console.log(data)
+                  var favTweets = data.tweet.text
+                  console.log(favTweets)
+
+                    var $favTweetLI = $('<li>')
+                    $favTweetLI.append('<span>' + data.tweet.text + '</span>')
+                    $favTweetLI.append('<button class="delBtn">Del</button>')
+                    $favList.append($favTweetLI)
+
+                })
+              })
+
+                // $.ajax({
+                //   method: 'GET',
+                //   url: '/api/tweets'
+                // }).done(function(data){
+                //   console.log(data)
+                //
+                // })
+
+
+
               $submitBtn.on('click', function(evt){
                 var city = $input.val()
                 evt.preventDefault()
                 //make an ajax call to api/tweets using .get method
                 $.ajax({
-                  type: 'GET',
+                  method: 'GET',
                   url: 'api/tweets',
                   data: {city},
                   contentType: 'application/json',
@@ -57,23 +107,56 @@
 
                     var tweets = data.data.statuses
                     tweets.forEach(function(tweet) {
-                      var $tweet = $('<li>').text(tweet.text)
-                      $tweetList.append($tweet)
+                      var $tweetLI = $('<li>')
+                      $tweetLI.append('<span>' + tweet.text + '</span>')
+                      $tweetLI.append('<button class="favBtn">Fav</button>')
+                      $tweetList.append($tweetLI)
                     })
                   }
                 });
                     console.log("clicked")
               })
+              ////////////////////////////////////////////////
 
-              var $favBtn = $('.favBtn')
-              var $favList = $('#fav-list')
-              $favBtn.on('click', function(evt){
-                evt.preventDefault()
-                $favList.forEach(function($tweet) {
-                  var $tweet = $('<li>').text(tweet.text)
-                  $favList.append($tweet)
+              ////////////////////////////////////////////////
+              ///this is working
+              var $delAccount = $('.delaccount')
+              $delAccount.on('click', function(evt){
+                // evt.preventDefault()
+                console.log(evt)
+                var currentUserId = '<%= user._id %>'
+                console.log(currentUserId);
+                $.ajax({
+                  method: 'DELETE',
+                  url: `/users/${currentUserId}`
+                }).done(function(data){
+                  console.log(data)
+                  window.location = window.location.origin + '/signup'
                 })
+
+                console.log('delete account button clicked')
               })
+
+              ///////////////////////////////////////////////
+              ///need to finish this
+              var $updateAcct = $('.updateaccount')
+              $updateAcct.on('click', function(evt){
+                console.log(evt)
+                var email = $input.val()
+                var password = $input.val()
+                var currentUserId = '<%= user._id %>'
+                $.ajax({
+                  method: 'PATCH',
+                  url: `/users/${currentUserId}`
+                }).done(function(data){
+                  console.log(data)
+                  window.location = window.location.origin + '/update'
+                })
+                console.log('update button clicked')
+              })
+
+
+
 
             </script>
         </div>

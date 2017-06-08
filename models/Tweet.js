@@ -1,15 +1,9 @@
 const
-  mongoose = require('mongoose'),
-  bcrypt = require('bcrypt-nodejs'),
-  tweetSchema = new mongoose.Schema({
-    local: {
-      text: String,
-    }
-  })
+  mongoose = require('mongoose')
 
-  // checks to see if password matches.
-  tweetSchema.methods.validPassword = function(password){
-    return bcrypt.compareSync(password, this.local.password)
-  }
+  tweetSchema = new mongoose.Schema({
+    text: String,
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  })
 
   module.exports = mongoose.model('Tweet', tweetSchema)

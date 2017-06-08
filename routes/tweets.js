@@ -2,25 +2,33 @@ const
   express = require('express'),
   passport = require('passport'),
   tweetsRouter = new express.Router(),
-  twitterClient = require('../config/tweets.js')
+  twitterClient = require('../config/tweets.js'),
+  Tweet = require('../models/Tweet.js')
 
-//searches for happy hour (this will need to search by hppyhr and city, displaying only those two items)
+//searches for happy hour (this will search by happyhour and query of city, displaying only those two items)
   tweetsRouter.get('/', (req, res) => {
     twitterClient.get('search/tweets', { q: `happyhour ${req.query.city}`, count: 10 }, function(err, data, response) {
       if(err) return console.log(err)
-    //  console.log('twitter data', data)
      res.json( {data: data})
-
     })
   })
-//route for saving tweets by current user id
-  tweetsRouter.post('/profile/$favList', (req, res) => {
-    res.render('profile', {user: req.user})
-  })
-  tweetsRouter.delete('/profile/$favList', (req,res) => {
-  //
-    res.render('profile', {user: req.user})
+
+
+  tweetsRouter.post('/', (req, res) => {
+    console.log(req.body)
+    var newTweet = new Tweet(req.body)
+    newTweet.user = req.user
+    newTweet.save((err, tweet) => {
+      res.json({success: true, message: "Favorite added...", tweet})
+    })
+
+    // Tweet.create(req.body, (err, tweet) => {
+    //   res.json({success: true, message: "Tweet saved to favorites"})
+    // })
 
   })
-//route for deleting
+  //route for deleting
+  tweetsRouter.delete('/', (req,res) => {
+    res.json({message: "request to delete favorite"})
+  })
 module.exports = tweetsRouter

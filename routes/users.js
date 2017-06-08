@@ -5,7 +5,8 @@ const
   passport = require('passport'),
   userRouter = express.Router(),
   usersCtrl = require('../controllers/users.js'),
-  User = require('../models/User.js')
+  User = require('../models/User.js'),
+  Tweet = require('../models/Tweet.js')
 
 userRouter.route('/login')
   .get((req, res) => {
@@ -26,15 +27,16 @@ userRouter.route('/signup')
   }))
 
 userRouter.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', {user: req.user})
+  //Tweet find for all favorites who's user property is req.user._id,THEN:
+  Tweet.findById(req.user._id, function(err, tweet){
+    res.render('profile', {user: req.user, tweets: tweet})
+  })
 })
 
 
 
 userRouter.post('/profile', isLoggedIn, (req,res) => {
-//
   res.render('profile', {user: req.user})
-
 })
 
 userRouter.get('/logout', isLoggedIn, (req, res) => {
@@ -47,7 +49,7 @@ function isLoggedIn(req, res, next) {
   res.redirect('/')
 }
 
-userRouter.route('/:id')
+userRouter.route('/users/:id')
   .get(usersCtrl.show)
   .patch(usersCtrl.update)
   .delete(usersCtrl.destroy)
