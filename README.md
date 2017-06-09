@@ -21,6 +21,11 @@
 * Twit
 * Dotenv
 
+###Install instructions:
+npm install --save (packages names here)
+
+make sure you require these in your server.js file
+
 ###The following languages where used:
 * HTML
 * CSS
@@ -46,3 +51,12 @@
 ![](signup.jpg)
 ![](profile.jpg)
 ![](favorites.jpg)
+
+###Approach:
+I was trying to create an easy to use app that had a simple design. I prefer getting a basic layout before programming the functionality. this helps me visualize the overall process.
+
+###Challanges:
+This was my first time using the Twitter API. There is still so much I have to learn as far as tapping into the API's full potential. Getting the ajax calls to do what I wanted was frustrating at times.
+
+###Todo list:
+Due to time constraints I might not be able to add <a href> for the http links in the tweets. Will hopefully get this implemented.
