@@ -45,3 +45,4 @@
 ![](login.jpg)
 ![](signup.jpg)
 ![](profile.jpg)
+![](favorites.jpg)
